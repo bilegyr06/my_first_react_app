@@ -33,7 +33,7 @@ const Item = (props)=> {
 )
 }
 
-const Search = ()=>{
+const Search = (props)=>{
 
   const [searchTerm, setSearchTerm] = React.useState('');
   
@@ -43,6 +43,7 @@ const Search = ()=>{
 
   console.log('Search rendered')
 
+  props.onSearch(event)
   return(
     <div>
       <label htmlFor="search"> Search:</label>
@@ -77,13 +78,15 @@ const App = ()=>{
 
   console.log('App rendered');
   
-  
+  const handleSearch = (event) => {
+    console.log(event.target.value)
+  }
 
   return(
     <div>
       <h1>{welcome.greeting} {welcome.title}</h1>
 
-      <Search />
+      <Search onSearch = {handleSearch}/>
 
       <hr />
       <List list = {stories}/>
