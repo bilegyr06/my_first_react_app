@@ -9,43 +9,36 @@ const welcome = {
   title: 'React'
 }
 
-const List = (props)=>{
-  console.log('List rendered')
-  return(
+const List = ({list})=>(
       <ul>
-        {props.list.map(function (item){
-          return <Item item = {item}/>
-        })}
+        {list.map(({objectID, ...item})=>
+          <Item key = {objectID} {...item}/>
+        )}
       </ul>
 )
-}
 
-const Item = (props)=> {
-  console.log('Item rendered')
-
-  return(
-  <li key = {props.item.objectID}>
-    <span><a href={props.item.url}>{props.item.title}</a></span>
-    <span> {props.item.author}</span>
-    <span> {props.item.num_comments}</span>
-    <span> {props.item.points}</span>
+const Item = ({title, url, author, num_comments, points})=> (
+  <li >
+    <span><a href={url}>{title}</a></span>
+    <span> {author}</span>
+    <span> {num_comments}</span>
+    <span> {points}</span>
   </li>
 )
-}
 
-const Search = (props)=>{
-  return(
-    <div>
-      <label htmlFor="search"> Search:</label>
-      <input type="text" id = 'search' onChange={props.onSearch} placeholder='Search for anything' value={props.searchTerm}/>
 
-      <p>
-        Searching for <strong>{props.searchTerm}</strong>
-      </p>      
+const Search = ({onSearch, searchTerm})=>(
+  <div>
+    <label htmlFor="search"> Search:</label>
+    <input type="text" id = 'search' onChange={onSearch} placeholder='Search for anything' value={searchTerm}/>
 
-    </div>
-  )
-};
+    <p>
+      Searching for <strong>{searchTerm}</strong>
+    </p>      
+
+  </div>
+)
+
 
 const App = ()=>{
 
