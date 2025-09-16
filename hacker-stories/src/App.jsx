@@ -37,7 +37,7 @@ const Search = (props)=>{
   return(
     <div>
       <label htmlFor="search"> Search:</label>
-      <input type="text" id = 'search' onChange={props.onSearch} placeholder='Search for anything'/>
+      <input type="text" id = 'search' onChange={props.onSearch} placeholder='Search for anything' value={props.searchTerm}/>
 
       <p>
         Searching for <strong>{props.searchTerm}</strong>
@@ -49,7 +49,7 @@ const Search = (props)=>{
 
 const App = ()=>{
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('React');
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value)
