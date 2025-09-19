@@ -42,7 +42,13 @@ const Search = ({onSearch, searchTerm})=>(
 
 const App = ()=>{
 
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  const [searchTerm, setSearchTerm] = React.useState(localStorage.getItem('search') ?? 'React');
+
+  // Removed the side effect of localStorage.setItem('search', event.target.value)
+  //  from the event handler and used react to handle the effect
+  React.useEffect(()=>{
+    localStorage.setItem('search',searchTerm)
+  }, [searchTerm])
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value)
