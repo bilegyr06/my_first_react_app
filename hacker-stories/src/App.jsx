@@ -28,7 +28,7 @@ const Item = ({title, url, author, num_comments, points})=> (
 
 
 const Search = ({onSearch, searchTerm})=>(
-  <div>
+  <>
     <label htmlFor="search"> Search:</label>
     <input type="text" id = 'search' onChange={onSearch} placeholder='Search for anything' value={searchTerm}/>
 
@@ -36,7 +36,7 @@ const Search = ({onSearch, searchTerm})=>(
       Searching for <strong>{searchTerm}</strong>
     </p>      
 
-  </div>
+  </>
 )
 
   const useStorageState = (key, initialState) =>{
