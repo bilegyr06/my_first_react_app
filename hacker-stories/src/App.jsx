@@ -27,9 +27,10 @@ const Item = ({title, url, author, num_comments, points})=> (
 )
 
 
-const InputWithLabel = ({id, label, onInputChange, type = 'text', value})=>(
+const InputWithLabel = ({id, onInputChange, type = 'text', value, children})=>(
   <>
-    <label htmlFor= {id}> {label}:</label>
+    <label htmlFor= {id}> {children}</label>
+    &nbsp;
     <input type= {type} id = {id} ionChange={onInputChange} placeholder='Search for anything' value={value}/>
 
     <p>
@@ -84,7 +85,9 @@ const App = ()=>{
     <div>
       <h1>{welcome.greeting} {welcome.title}</h1>
 
-      <InputWithLabel id = 'search' label = 'search' onInputChange = {handleSearch} value = {searchTerm}/>
+      <InputWithLabel id = 'search' onInputChange = {handleSearch} value = {searchTerm}>
+        <strong>Search:</strong>
+      </InputWithLabel>
 
       <hr />
       <List list = {searchedStories}/>
