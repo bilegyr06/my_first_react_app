@@ -27,13 +27,13 @@ const Item = ({title, url, author, num_comments, points})=> (
 )
 
 
-const Search = ({onSearch, searchTerm})=>(
+const InputWithLabel = ({id, label, onInputChange, type = 'text', value})=>(
   <>
-    <label htmlFor="search"> Search:</label>
-    <input type="text" id = 'search' onChange={onSearch} placeholder='Search for anything' value={searchTerm}/>
+    <label htmlFor= {id}> {label}:</label>
+    <input type= {type} id = {id} ionChange={onInputChange} placeholder='Search for anything' value={value}/>
 
     <p>
-      Searching for <strong>{searchTerm}</strong>
+      Searching for <strong>{value}</strong>
     </p>      
 
   </>
@@ -84,7 +84,7 @@ const App = ()=>{
     <div>
       <h1>{welcome.greeting} {welcome.title}</h1>
 
-      <Search onSearch = {handleSearch} searchTerm = {searchTerm}/>
+      <InputWithLabel id = 'search' label = 'search' onInputChange = {handleSearch} value = {searchTerm}/>
 
       <hr />
       <List list = {searchedStories}/>
