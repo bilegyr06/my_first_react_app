@@ -27,11 +27,11 @@ const Item = ({title, url, author, num_comments, points})=> (
 )
 
 
-const InputWithLabel = ({id, onInputChange, type = 'text', value, children})=>(
+const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children})=>(
   <>
     <label htmlFor= {id}> {children}</label>
     &nbsp;
-    <input type= {type} id = {id} ionChange={onInputChange} placeholder='Search for anything' value={value}/>
+    <input type= {type} id = {id} onChange={onInputChange} placeholder='Search for anything' value={value} autoFocus = {isFocused}/>
 
     <p>
       Searching for <strong>{value}</strong>
@@ -49,7 +49,7 @@ const InputWithLabel = ({id, onInputChange, type = 'text', value, children})=>(
 
     return [value, setValue]
   }
-
+ 
 
 const App = ()=>{
   const [searchTerm, setSearchTerm] = useStorageState('search','React')
@@ -85,7 +85,7 @@ const App = ()=>{
     <div>
       <h1>{welcome.greeting} {welcome.title}</h1>
 
-      <InputWithLabel id = 'search' onInputChange = {handleSearch} value = {searchTerm}>
+      <InputWithLabel id = 'search' onInputChange = {handleSearch} value = {searchTerm} isFocused>
         <strong>Search:</strong>
       </InputWithLabel>
 
