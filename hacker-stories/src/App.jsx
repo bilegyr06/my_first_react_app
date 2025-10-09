@@ -18,9 +18,6 @@ const List = ({list, onRemoveItem})=>(
 )
 
 const Item = ({item, onRemoveItem})=>{
-  const handleRemoveItem = () => {
-    onRemoveItem(item)
-  }
   return (
     <li >
       <span><a href={item.url}>{item.title}</a></span>
@@ -28,7 +25,7 @@ const Item = ({item, onRemoveItem})=>{
       <span> {item.num_comments}</span>
       <span> {item.points}</span>
       <span>
-        <button type='button' onClick={handleRemoveItem}>Remove Item</button>
+        <button type='button' onClick={() => {onRemoveItem(item)}}>Remove Item</button>
       </span>
     </li>
   )
@@ -47,33 +44,33 @@ const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, chi
   </>
 )
 
-  const useStorageState = (key, initialState) =>{
-    const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
+const useStorageState = (key, initialState) =>{
+  const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
 
-    React.useEffect(()=>{
-      localStorage.setItem(key, value)
-    }, [value, key])
+  React.useEffect(()=>{
+    localStorage.setItem(key, value)
+  }, [value, key])
 
-    return [value, setValue]
+  return [value, setValue]
+}
+
+const initialStories = [
+  {
+    title: ' React ',
+    url: ' https://react.dev/ ',
+    author: 'Jordan Walke ', 
+    num_comments: 3,
+    points: 4, 
+    objectID: 0, 
+  }, 
+  {title: ' Redux ', 
+    url: ' https://redux.js.org/ ', 
+    author: ' Dan Abramov, Andrew Clark', 
+    num_comments: 2, 
+    points: 5, 
+    objectID: 1
   }
- 
-  const initialStories = [
-    {
-      title: ' React ',
-      url: ' https://react.dev/ ',
-      author: 'Jordan Walke ', 
-      num_comments: 3,
-      points: 4, 
-      objectID: 0, 
-    }, 
-    {title: ' Redux ', 
-      url: ' https://redux.js.org/ ', 
-      author: ' Dan Abramov, Andrew Clark', 
-      num_comments: 2, 
-      points: 5, 
-      objectID: 1
-    }
-  ] 
+] 
 
 
 const App = ()=>{
