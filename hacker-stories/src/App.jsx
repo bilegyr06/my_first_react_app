@@ -9,23 +9,30 @@ const welcome = {
   title: 'React'
 }
 
-const List = ({list})=>(
+const List = ({list, onRemoveItem})=>(
       <ul>
-        {list.map(({objectID, ...item})=>
-          <Item key = {objectID} {...item}/>
+        {list.map((item)=>
+          <Item key = {item.objectID} item = {item} onRemoveItem = {onRemoveItem}/>
         )}
       </ul>
 )
 
-const Item = ({title, url, author, num_comments, points})=> (
-  <li >
-    <span><a href={url}>{title}</a></span>
-    <span> {author}</span>
-    <span> {num_comments}</span>
-    <span> {points}</span>
-  </li>
-)
-
+const Item = ({item, onRemoveItem})=>{
+  const handleRemoveItem = () => {
+    onRemoveItem(item)
+  }
+  return (
+    <li >
+      <span><a href={item.url}>{item.title}</a></span>
+      <span> {item.author}</span>
+      <span> {item.num_comments}</span>
+      <span> {item.points}</span>
+      <span>
+        <button type='button' onClick={handleRemoveItem}>Remove Item</button>
+      </span>
+    </li>
+  )
+}
 
 const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children})=>(
   <>
@@ -50,15 +57,7 @@ const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, chi
     return [value, setValue]
   }
  
-
-const App = ()=>{
-  const [searchTerm, setSearchTerm] = useStorageState('search','React')
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value)
-  }
-
-  const stories = [
+  const initialStories = [
     {
       title: ' React ',
       url: ' https://react.dev/ ',
@@ -76,10 +75,26 @@ const App = ()=>{
     }
   ] 
 
+
+const App = ()=>{
+  const [searchTerm, setSearchTerm] = useStorageState('search','React')
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const [stories, setStories] = React.useState(initialStories)
+  const handleRemoveStory = (item) =>{
+    const newStories = stories.filter((story)=>
+    item.objectID !== story.objectID)
+    // console.log(`search story removed: ${newStories}`)
+
+    setStories(newStories)
+  }
+  
   const searchedStories = stories.filter((story)=>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
-  console.log('App rendered');
+  // console.log(newStories);
   
   return(
     <div>
@@ -90,7 +105,7 @@ const App = ()=>{
       </InputWithLabel>
 
       <hr />
-      <List list = {searchedStories}/>
+      <List list = {searchedStories} onRemoveItem = {handleRemoveStory}/>
     </div>
     
   )
