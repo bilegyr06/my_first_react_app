@@ -99,8 +99,16 @@ const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=%27'
 
 const App = () =>{
   const [searchTerm, setSearchTerm] = useStorageState('search','React')
-  const handleSearch = (event) => {
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  )
+
+  const handleSearchInput = (event) => {
     setSearchTerm(event.target.value)
+  }
+
+  const handleSearchSubmit = ()=>{
+    setUrl(`${API_ENDPOINT}${searchTerm}`)
   }
 
   const [stories, dispatchStories] = React.useReducer(
@@ -108,12 +116,12 @@ const App = () =>{
   )
 
   const handleFetchStories = React.useCallback(()=>{
-    if (!searchTerm) return
-
+    // no if (!searchTerm) return anymore because the button handles the emptyness of the search term
     dispatchStories({
       type: 'STORIES_FETCH_INIT'
     })
-    fetch(`${API_ENDPOINT}${searchTerm}`)
+
+    fetch(url)
     .then((res)=>
       res.json()
     )
@@ -124,7 +132,7 @@ const App = () =>{
       })
     })
     .catch(()=> dispatchStories({type: 'STORIES_FETCH_FAILURE'}))
-  },[searchTerm])
+  },[url])
 
   React.useEffect(()=>{
     handleFetchStories()
@@ -141,9 +149,13 @@ const App = () =>{
     <div>
       <h1>{welcome.greeting} {welcome.title}</h1>
 
-      <InputWithLabel id = 'search' onInputChange = {handleSearch} value = {searchTerm} isFocused>
+      <InputWithLabel id = 'search' onInputChange = {handleSearchInput} value = {searchTerm} isFocused>
         <strong>Search:</strong>
       </InputWithLabel>
+
+      <button type='button' onClick={handleSearchSubmit} disabled = {!searchTerm}>
+        Submit
+      </button>
 
       <hr />
       {stories.isError && <p>...Seems like something went wrong...</p>}
