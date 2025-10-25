@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import * as React from 'react'
+import axios from 'axios'
 
 const welcome = {
   greeting: 'hey',
@@ -121,16 +122,14 @@ const App = () =>{
       type: 'STORIES_FETCH_INIT'
     })
 
-    fetch(url)
-    .then((res)=>
-      res.json()
-    )
-    .then((result)=>{
-      dispatchStories({
-        type: 'STORIES_FETCH_SUCCESS',
-        payload: result.hits
+    axios
+      .get(url)
+      .then((result)=>{
+        dispatchStories({
+          type: 'STORIES_FETCH_SUCCESS',
+          payload: result.data.hits
+        })
       })
-    })
     .catch(()=> dispatchStories({type: 'STORIES_FETCH_FAILURE'}))
   },[url])
 
