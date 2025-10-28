@@ -45,6 +45,18 @@ const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, chi
   </>
 )
 
+const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel id = 'search' onInputChange = {onSearchInput} value = {searchTerm} isFocused>
+      <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button type='submit' disabled = {!searchTerm}>
+      Submit
+    </button>
+  </form>
+)
+
 const useStorageState = (key, initialState) =>{
   const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
 
@@ -108,8 +120,9 @@ const App = () =>{
     setSearchTerm(event.target.value)
   }
 
-  const handleSearchSubmit = ()=>{
+  const handleSearchSubmit = (event)=>{
     setUrl(`${API_ENDPOINT}${searchTerm}`)
+    event.preventDefault()
   }
 
   const [stories, dispatchStories] = React.useReducer(
@@ -147,15 +160,8 @@ const App = () =>{
 
   return(
     <div>
-      <h1>{welcome.greeting} {welcome.title}</h1>
-
-      <InputWithLabel id = 'search' onInputChange = {handleSearchInput} value = {searchTerm} isFocused>
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button type='button' onClick={handleSearchSubmit} disabled = {!searchTerm}>
-        Submit
-      </button>
+      <h1>Hacker Stories</h1>
+      <SearchForm searchTerm = {searchTerm} onSearchInput = {handleSearchInput} onSearchSubmit = {handleSearchSubmit}/>
 
       <hr />
       {stories.isError && <p>...Seems like something went wrong...</p>}
