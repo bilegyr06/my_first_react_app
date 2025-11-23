@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { ReactComponent as Check } from './check.svg'
 import * as React from 'react'
 import axios from 'axios'
 
@@ -11,11 +12,11 @@ const welcome = {
 }
 
 const List = ({list, onRemoveItem})=>(
-      <ul>
-        {list.map((item)=>
-          <Item key = {item.objectID} item = {item} onRemoveItem = {onRemoveItem}/>
-        )}
-      </ul>
+  <ul>
+    {list.map((item)=>
+      <Item key = {item.objectID} item = {item} onRemoveItem = {onRemoveItem}/>
+    )}
+  </ul>
 )
 
 const Item = ({item, onRemoveItem})=>{
@@ -26,7 +27,12 @@ const Item = ({item, onRemoveItem})=>{
       <span> {item.num_comments}</span>
       <span> {item.points}</span>
       <span>
-        <button type='button' onClick={() => {onRemoveItem(item)}}>Remove Item</button>
+        <button 
+          type='button' 
+          onClick={() => {onRemoveItem(item)}}
+          >
+            <Check height = '18px' width = '18px'></Check>
+        </button>
       </span>
     </li>
   )
@@ -159,11 +165,10 @@ const App = () =>{
   }
 
   return(
-    <div>
-      <h1>Hacker Stories</h1>
+    <div className='container'>
+      <h1 className='headline-primary'>Hacker Stories</h1>
       <SearchForm searchTerm = {searchTerm} onSearchInput = {handleSearchInput} onSearchSubmit = {handleSearchSubmit}/>
 
-      <hr />
       {stories.isError && <p>...Seems like something went wrong...</p>}
       {stories.isLoading ? (<p>Loading...</p>):
       (<List list = {stories.data} onRemoveItem = {handleRemoveStory}/>)}
