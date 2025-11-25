@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { ReactComponent as Check } from './check.svg'
+import Check from './check.svg?react'
 import * as React from 'react'
 import axios from 'axios'
 
