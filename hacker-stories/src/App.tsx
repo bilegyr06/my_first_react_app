@@ -6,14 +6,70 @@ import Check from './check.svg?react'
 import * as React from 'react'
 import axios from 'axios'
 
-const welcome = {
-  greeting: 'hey',
-  title: 'React'
+// Types
+type Story = {
+  objectID: string;
+  url: string;
+  title: string;
+  author: string;
+  num_comments: number;
+  points: number;
+};
+
+type ItemProps = {
+  item: Story;
+  onRemoveItem: (item: Story) => void;
+};
+
+type ListProps = {
+list: Story[];
+onRemoveItem: (item: Story) => void;
+};
+
+type StoriesState = {
+  data: Story[];
+  isLoading: boolean;
+  isError: boolean;
+};
+
+type StoriesFetchInitAction = {
+  type: 'STORIES_FETCH_INIT';
 }
+type StoriesFetchSuccessAction = {
+  type: 'STORIES_FETCH_SUCCESS';
+  payload: Story[];
+}
+type StoriesFetchFailureAction = {
+  type: 'STORIES_FETCH_FAILURE';
+}
+type StoriesRemoveAction = {
+  type: 'REMOVE_STORY';
+  payload: Story;
+}
+type StoriesAction =
+StoriesFetchInitAction
+| StoriesFetchSuccessAction
+| StoriesFetchFailureAction
+| StoriesRemoveAction;
+
+type SearchFormProps = {
+  searchTerm: string;
+  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+};
+
+type InputWithLabelProps = {
+  id: string;
+  value: string;
+  type?: string;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isFocused?: boolean;
+  children: React.ReactNode;
+};
+
 
 const List = React.memo(
-  ({list, onRemoveItem})=>
-  console.log('B: List') || (
+  ({list, onRemoveItem}:ListProps)=>(
   <ul>
     {list.map((item)=>
       <Item key = {item.objectID} item = {item} onRemoveItem = {onRemoveItem}/>
@@ -22,26 +78,24 @@ const List = React.memo(
 )
 )
 
-const Item = ({item, onRemoveItem})=>{
-  return (
-    <li >
-      <span><a href={item.url}>{item.title}</a></span>
-      <span> {item.author}</span>
-      <span> {item.num_comments}</span>
-      <span> {item.points}</span>
-      <span>
-        <button 
-          type='button' 
-          onClick={() => {onRemoveItem(item)}}
-          >
-            <Check height = '18px' width = '18px'></Check>
-        </button>
-      </span>
-    </li>
-  )
-}
+const Item = ({item, onRemoveItem}: ItemProps)=>(
+  <li >
+    <span><a href={item.url}>{item.title}</a></span>
+    <span> {item.author}</span>
+    <span> {item.num_comments}</span>
+    <span> {item.points}</span>
+    <span>
+      <button 
+        type='button' 
+        onClick={() => {onRemoveItem(item)}}
+        >
+          <Check height = '18px' width = '18px'></Check>
+      </button>
+    </span>
+  </li>
+)
 
-const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children})=>(
+const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
   <>
     <label htmlFor= {id}> {children}</label>
     &nbsp;
@@ -54,7 +108,7 @@ const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, chi
   </>
 )
 
-const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}) => (
+const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}: SearchFormProps) => (
   <form onSubmit={onSearchSubmit}>
     <InputWithLabel id = 'search' onInputChange = {onSearchInput} value = {searchTerm} isFocused>
       <strong>Search:</strong>
@@ -66,14 +120,14 @@ const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}) => (
   </form>
 )
 
-const useStorageState = (key, initialState) =>{
+const useStorageState = (key: string, initialState: string): [string, (newValue: string) => void] =>{
   const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
 
   React.useEffect(()=>{
     localStorage.setItem(key, value)
   }, [value, key])
 
-  return [value, setValue]
+  return [value, setValue] as const
 }
 
 
@@ -81,7 +135,7 @@ const useStorageState = (key, initialState) =>{
 //   new Promise((resolve) => resolve({data: {stories: initialStories}}))
 // }, [])
 
-const storiesReducer = (state, action) => {
+const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   switch (action.type) {
   case 'STORIES_FETCH_INIT':
     return {
@@ -125,11 +179,11 @@ const App = () =>{
     `${API_ENDPOINT}${searchTerm}`
   )
 
-  const handleSearchInput = (event) => {
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
 
-  const handleSearchSubmit = (event)=>{
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>)=>{
     setUrl(`${API_ENDPOINT}${searchTerm}`)
     event.preventDefault()
   }
@@ -161,7 +215,7 @@ const App = () =>{
     },[handleFetchStories])
 
   const handleRemoveStory = React.useCallback(
-    (item) =>{
+    (item: Story) =>{
     dispatchStories({
       type: 'REMOVE_STORY', 
       payload: item
