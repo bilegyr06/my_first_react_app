@@ -1,12 +1,34 @@
-# React + Vite
+# Hacker Stories
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)](https://react.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-Currently, two official plugins are available:
+A simple, modern React application for searching and browsing Hacker News stories. Built as a learning project with the aid of the book "Road to React" to practice core React concepts: hooks (`useState`, `useEffect`, `useReducer`), custom hooks, asynchronous data fetching, local storage persistence, and component composition.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Demo: (Add your deployed link here, e.g., Vercel/Netlify URL if deployed)
 
-## Expanding the ESLint configuration
+## 📝 Description
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Hacker Stories is a searchable frontend for the Hacker News API (powered by Algolia). Users can:
+
+- Type a search query to instantly filter and fetch relevant stories
+- View story details: title, URL, author, points, and number of comments
+- Dismiss individual stories (state persists across refreshes via localStorage)
+- Load more results with pagination
+
+This project demonstrates clean, functional React patterns without external state management libraries.
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v16+ recommended)
+- npm or yarn
+
+### Installation & Running Locally
+
+```bash
+git clone https://github.com/bilegyr06/my_first_react_app.git
+cd my_first_react_app/hacker-stories
+npm install
+npm start
