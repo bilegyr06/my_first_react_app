@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import reactLogo from './assets/react.svg?'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Check from './check.svg?react'
@@ -68,7 +68,7 @@ type InputWithLabelProps = {
 };
 
 
-const List = React.memo(
+const List = React.memo<React.FC<ListProps>>(
   ({list, onRemoveItem}:ListProps)=>(
   <ul>
     {list.map((item)=>
@@ -78,7 +78,7 @@ const List = React.memo(
 )
 )
 
-const Item = ({item, onRemoveItem}: ItemProps)=>(
+const Item: React.FC<ItemProps> = ({item, onRemoveItem}: ItemProps)=>(
   <li >
     <span><a href={item.url}>{item.title}</a></span>
     <span> {item.author}</span>
@@ -95,7 +95,7 @@ const Item = ({item, onRemoveItem}: ItemProps)=>(
   </li>
 )
 
-const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
+const InputWithLabel: React.FC<InputWithLabelProps> = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
   <>
     <label htmlFor= {id}> {children}</label>
     &nbsp;
@@ -239,3 +239,5 @@ const App = () =>{
 };
 
 export default App;
+
+export { storiesReducer, SearchForm, InputWithLabel, List, Item }
