@@ -2,123 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg?'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Check from './check.svg?react'
 import * as React from 'react'
 import axios from 'axios'
-
-// Types
-type Story = {
-  objectID: string;
-  url: string;
-  title: string;
-  author: string;
-  num_comments: number;
-  points: number;
-};
-
-type ItemProps = {
-  item: Story;
-  onRemoveItem: (item: Story) => void;
-};
-
-type ListProps = {
-list: Story[];
-onRemoveItem: (item: Story) => void;
-};
-
-type StoriesState = {
-  data: Story[];
-  isLoading: boolean;
-  isError: boolean;
-};
-
-type StoriesFetchInitAction = {
-  type: 'STORIES_FETCH_INIT';
-}
-type StoriesFetchSuccessAction = {
-  type: 'STORIES_FETCH_SUCCESS';
-  payload: Story[];
-}
-type StoriesFetchFailureAction = {
-  type: 'STORIES_FETCH_FAILURE';
-}
-type StoriesRemoveAction = {
-  type: 'REMOVE_STORY';
-  payload: Story;
-}
-type StoriesAction =
-StoriesFetchInitAction
-| StoriesFetchSuccessAction
-| StoriesFetchFailureAction
-| StoriesRemoveAction;
-
-type SearchFormProps = {
-  searchTerm: string;
-  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-};
-
-type InputWithLabelProps = {
-  id: string;
-  value: string;
-  type?: string;
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  isFocused?: boolean;
-  children: React.ReactNode;
-};
+import { SearchForm } from './SearchForm'
+import { InputWithLabel } from './InputWithLabel'
+import { List } from './List'
+import { StoriesState, Story, StoriesAction } from './types'
 
 
-const List = React.memo<React.FC<ListProps>>(
-  ({list, onRemoveItem}:ListProps)=>(
-  <ul>
-    {list.map((item)=>
-      <Item key = {item.objectID} item = {item} onRemoveItem = {onRemoveItem}/>
-    )}
-  </ul>
-)
-)
-
-const Item: React.FC<ItemProps> = ({item, onRemoveItem}: ItemProps)=>(
-  <li >
-    <span><a href={item.url}>{item.title}</a></span>
-    <span> {item.author}</span>
-    <span> {item.num_comments}</span>
-    <span> {item.points}</span>
-    <span>
-      <button 
-        type='button' 
-        onClick={() => {onRemoveItem(item)}}
-        >
-          <Check height = '18px' width = '18px'></Check>
-      </button>
-    </span>
-  </li>
-)
-
-const InputWithLabel: React.FC<InputWithLabelProps> = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
-  <>
-    <label htmlFor= {id}> {children}</label>
-    &nbsp;
-    <input type= {type} id = {id} onChange={onInputChange} placeholder='Search for anything' value={value} autoFocus = {isFocused}/>
-
-    <p>
-      Searching for <strong>{value}</strong>
-    </p>      
-
-  </>
-)
-
-const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}: SearchFormProps) => (
-  <form onSubmit={onSearchSubmit}>
-    <InputWithLabel id = 'search' onInputChange = {onSearchInput} value = {searchTerm} isFocused>
-      <strong>Search:</strong>
-    </InputWithLabel>
-
-    <button type='submit' disabled = {!searchTerm}>
-      Submit
-    </button>
-  </form>
-)
 
 const useStorageState = (key: string, initialState: string): [string, (newValue: string) => void] =>{
   const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
@@ -240,4 +131,5 @@ const App = () =>{
 
 export default App;
 
-export { storiesReducer, SearchForm, InputWithLabel, List, Item }
+export type { Story }
+export { storiesReducer, SearchForm, InputWithLabel, List}

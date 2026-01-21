@@ -6,7 +6,11 @@ screen,
 fireEvent,
 waitFor,
 } from '@testing-library/react';
-import App,{ storiesReducer, SearchForm, InputWithLabel, List, Item } from './App.tsx'
+import App from './App.tsx'
+import { SearchForm } from './SearchForm'
+import { InputWithLabel } from './InputWithLabel'
+import { List } from './List'
+import { Item } from './List.tsx'
 
 
 vi.mock('axios')
