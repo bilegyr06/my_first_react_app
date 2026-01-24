@@ -1,19 +1,98 @@
-.container{
-    height: 100vw;
-    padding: 20px;
-    background: #83a4d4; /* fallback for old browsers */
-    background: linear-gradient(to left, #b6fbff, #83a4d4);
-    color: #171212;
+.container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: #ffffff;
 }
 
-.headline-primary{
-    font-size: 48px;
-    font-weight: 300;
-    letter-spacing: 2px;
+.headline-primary {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin: 0 0 32px 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.button:hover > svg > g {
-    fill: #ffffff;
-    stroke: #ffffff;
+.search-form input,
+input[type="text"],
+input[type="search"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--dark);
+  transition: all 0.3s ease;
 }
 
+.search-form input:focus,
+input[type="text"]:focus,
+input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button styling for mobile feel */
+button {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #8a5cf69d;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+button:active {
+  transform: translateY(0);
+}
+button:hover > svg > g {
+  fill: #ffffff;
+  stroke: #ffffff;
+  transition: all 0.3s ease;
+}
+
+ul{
+    margin-block-start: 2em;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: #ffffff;
+  color: #40336c;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.list-item:hover,
+li:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+/* Container content - mobile optimized */
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}

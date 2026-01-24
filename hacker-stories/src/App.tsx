@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg?'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg?'
+// import viteLogo from '/vite.svg'
 import './App.css'
 import * as React from 'react'
 import axios from 'axios'
@@ -120,6 +120,7 @@ const App = () =>{
     <div className='container'>
       <h1 className='headline-primary'>Hacker Stories</h1>
       <SearchForm searchTerm = {searchTerm} onSearchInput = {handleSearchInput} onSearchSubmit = {handleSearchSubmit}/>
+
 
       {stories.isError && <p>...Seems like something went wrong...</p>}
       {stories.isLoading ? (<p>Loading...</p>):
