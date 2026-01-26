@@ -10,7 +10,6 @@ import { List } from './List'
 import { StoriesState, Story, StoriesAction } from './types'
 
 
-
 const useStorageState = (key: string, initialState: string): [string, (newValue: string) => void] =>{
   const [value, setValue] = React.useState(localStorage.getItem(key) ?? initialState)
 
@@ -114,7 +113,7 @@ const App = () =>{
   } 
   ,[])
 
-  console.log('B: App')
+  // console.log('B: App')
 
   return(
     <div className='container'>
