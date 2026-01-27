@@ -1,24 +1,27 @@
 import * as React from 'react'
 import Check from './check.svg?react'
-import { ListProps, ItemProps } from './types.ts'
+import { ListProps, ItemProps, Story } from './types.ts'
 import { sortBy } from 'lodash'
 
 
 const SORTS = {
-  NONE: (list: [object]) => list,
-  TITLE: (list: [object]) => sortBy(list, 'title'),
-  AUTHOR: (list: [object]) => sortBy(list, 'author'),
-  COMMENT: (list: [object]) => sortBy(list, 'num_comments').reverse(),
-  POINT: (list: [object]) => sortBy(list, 'points').reverse(),
-}
+  NONE: (list: Story[]) => list,
+  TITLE: (list: Story[]) => sortBy(list, 'title'),
+  AUTHOR: (list: Story[]) => sortBy(list, 'author'),
+  COMMENT: (list: Story[]) => sortBy(list, 'num_comments').reverse(),
+  POINT: (list: Story[]) => sortBy(list, 'points').reverse(),
+} as const
+
+type SortKey = keyof typeof SORTS
 
 const List = React.memo(
   ({list, onRemoveItem}:ListProps)=>{
 
-  const [sort, setSort] = React.useState('NONE')
+  const [sort, setSort] = React.useState<SortKey>('NONE')
 
-  const handleSort = (sortKey: string) => {
+  const handleSort = (sortKey: SortKey) => {
     setSort(sortKey)
+
   }
 
   // console.log(SORTS[sort])
@@ -28,11 +31,11 @@ const List = React.memo(
 
     return(
       <ul>
-        <li>
-          <span style={{ width: '40%' }}><button onClick={()=>handleSort('TITLE')}>Title</button> </span>
-          <span style={{ width: '20%' }}><button onClick={()=>handleSort('AUTHOR')}>Author</button></span>
-          <span style={{ width: '20%' }}><button onClick={()=>handleSort('COMMENT')}>Comments</button></span>
-          <span style={{ width: '10%' }}><button onClick={()=>handleSort('POINT')}>Points</button></span>
+        <li style={{fontWeight: 'bold'}}>
+          <span style={{ width: '35%'}}>{ sort === 'TITLE' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('TITLE')}>Title ⬆️</button> : <button onClick={()=>handleSort('TITLE')}>Title 🟰</button> }</span>
+          <span style={{ width: '20%' }}>{ sort === 'AUTHOR' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('AUTHOR')}>Author ⬆️</button> : <button onClick={()=>handleSort('AUTHOR')}>Author 🟰</button> }</span>
+          <span style={{ width: '20%' }}>{ sort === 'COMMENT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('COMMENT')}>Comments ⬆️</button> : <button onClick={()=>handleSort('COMMENT')}>Comments 🟰</button> }</span>
+          <span style={{ width: '15%' }}>{ sort === 'POINT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('POINT')}>Points ⬆️</button> : <button onClick={()=>handleSort('POINT')}>Points 🟰</button> }</span>
           <span style={{ width: '10%' }}>Action</span>
         </li>
         {sortedList.map((item)=> // Fix the issue with the implicit 'any' type
@@ -46,10 +49,10 @@ const List = React.memo(
 
 const Item = ({item, onRemoveItem}: ItemProps)=>(
   <li >
-    <span style={{ width: '40%' }}><a href={item.url}>{item.title}</a></span>
+    <span style={{ width: '35%' }}><a href={item.url}>{item.title}</a></span>
     <span style={{ width: '20%' }}> {item.author}</span>
     <span style={{ width: '20%' }}> {item.num_comments}</span>
-    <span style={{ width: '10%' }}> {item.points}</span>
+    <span style={{ width: '15%' }}> {item.points}</span>
     <span style={{ width: '10%' }}>
       <button 
         type='button' 
