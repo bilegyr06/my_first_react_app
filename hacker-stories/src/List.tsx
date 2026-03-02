@@ -12,30 +12,37 @@ const SORTS = {
   POINT: (list: Story[]) => sortBy(list, 'points').reverse(),
 } as const
 
-type SortKey = keyof typeof SORTS
+type SortKey = {
+  sortKey: keyof typeof SORTS,
+  isReverse: boolean
+}
 
 const List = React.memo(
   ({list, onRemoveItem}:ListProps)=>{
 
-  const [sort, setSort] = React.useState<SortKey>('NONE')
+  const [sort, setSort] = React.useState<SortKey>({
+    sortKey: 'NONE',
+    isReverse: false
+  })
 
-  const handleSort = (sortKey: SortKey) => {
-    setSort(sortKey)
+  const handleSort = (sortKey: SortKey['sortKey']) => {
+    const isReverse = sort.sortKey === sortKey && !sort.isReverse;
+    setSort({ sortKey, isReverse })
 
   }
 
   // console.log(SORTS[sort])
 
-  const sortFunction = SORTS[sort] // fix the issue with the implicit any type
-  const sortedList = sortFunction(list)
+  const sortFunction = SORTS[sort.sortKey] // fix the issue with the implicit any type
+  const sortedList = (sort.isReverse) ? sortFunction(list).reverse(): sortFunction(list)
 
     return(
       <ul>
         <li style={{fontWeight: 'bold'}}>
-          <span style={{ width: '35%'}}>{ sort === 'TITLE' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('TITLE')}>Title ⬆️</button> : <button onClick={()=>handleSort('TITLE')}>Title 🟰</button> }</span>
-          <span style={{ width: '20%' }}>{ sort === 'AUTHOR' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('AUTHOR')}>Author ⬆️</button> : <button onClick={()=>handleSort('AUTHOR')}>Author 🟰</button> }</span>
-          <span style={{ width: '20%' }}>{ sort === 'COMMENT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('COMMENT')}>Comments ⬆️</button> : <button onClick={()=>handleSort('COMMENT')}>Comments 🟰</button> }</span>
-          <span style={{ width: '15%' }}>{ sort === 'POINT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('POINT')}>Points ⬆️</button> : <button onClick={()=>handleSort('POINT')}>Points 🟰</button> }</span>
+          <span style={{ width: '35%'}}>{ sort.sortKey === 'TITLE' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('TITLE')}>Title ⬆️</button> : <button onClick={()=>handleSort('TITLE')}>Title 🟰</button> }</span>
+          <span style={{ width: '20%' }}>{ sort.sortKey === 'AUTHOR' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('AUTHOR')}>Author ⬆️</button> : <button onClick={()=>handleSort('AUTHOR')}>Author 🟰</button> }</span>
+          <span style={{ width: '20%' }}>{ sort.sortKey === 'COMMENT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('COMMENT')}>Comments ⬆️</button> : <button onClick={()=>handleSort('COMMENT')}>Comments 🟰</button> }</span>
+          <span style={{ width: '15%' }}>{ sort.sortKey === 'POINT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('POINT')}>Points ⬆️</button> : <button onClick={()=>handleSort('POINT')}>Points 🟰</button> }</span>
           <span style={{ width: '10%' }}>Action</span>
         </li>
         {sortedList.map((item)=> // Fix the issue with the implicit 'any' type
