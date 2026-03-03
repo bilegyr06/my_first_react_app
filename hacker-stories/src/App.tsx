@@ -60,21 +60,33 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
     throw new Error();
   }
 }
+const extractSearchTerm = (url: string) => url.replace(API_ENDPOINT, '')
+// const getLastSearches = (urls: any)  => urls.slice(-5).map((url: any)=> extractSearchTerm(url))
+const getLastSearches = (urls: Array<string>): Array<string> => {
+  return [... new Set(urls.reverse().slice(-6).slice(0,-1).map(extractSearchTerm))]
+} //more concise method
+
+const getUrl = (searchTerm: string) => `${API_ENDPOINT}${searchTerm}`
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=%27'
 
 const App = () =>{
   const [searchTerm, setSearchTerm] = useStorageState('search','React')
-  const [url, setUrl] = React.useState(
-    `${API_ENDPOINT}${searchTerm}`
-  )
+  const [urls, setUrls] = React.useState([
+    getUrl(searchTerm),
+  ])
+
+  const handleSearch = (searchTerm:string) => {
+    const url = `${API_ENDPOINT}${searchTerm}`
+    setUrls(urls.concat(url))
+  }
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>)=>{
-    setUrl(`${API_ENDPOINT}${searchTerm}`)
+    handleSearch(searchTerm)
     event.preventDefault()
   }
 
@@ -89,7 +101,8 @@ const App = () =>{
     })
 
     try {
-      const result = await axios.get(url); 
+      const lastUrl = urls[urls.length - 1]
+      const result = await axios.get(lastUrl); 
 
       dispatchStories({
         type: 'STORIES_FETCH_SUCCESS',
@@ -98,7 +111,7 @@ const App = () =>{
     } catch {
       dispatchStories({type: 'STORIES_FETCH_FAILURE'})
     }
-  },[url])
+  },[urls])
 
   React.useEffect(()=>{
     handleFetchStories()
@@ -113,13 +126,27 @@ const App = () =>{
   } 
   ,[])
 
-  // console.log('B: App')
+  const handleLastSearch = (searchTerm: string) => {
+    handleSearch(searchTerm)
+    setSearchTerm(searchTerm)
+  }
+
+  const lastSearches = getLastSearches(urls)
 
   return(
     <div className='container'>
       <h1 className='headline-primary'>Hacker Stories</h1>
       <SearchForm searchTerm = {searchTerm} onSearchInput = {handleSearchInput} onSearchSubmit = {handleSearchSubmit}/>
 
+      {lastSearches.map((searchTerm:string, index: number)=>(
+        <button
+         key={searchTerm + index}
+         type='button'
+         onClick={() =>handleLastSearch(searchTerm)}
+        >
+          {searchTerm}
+        </button>
+      ))}
 
       {stories.isError && <p>...Seems like something went wrong...</p>}
       {stories.isLoading ? (<p>Loading...</p>):
