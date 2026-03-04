@@ -2,7 +2,7 @@ import { InputWithLabel } from './InputWithLabel.tsx'
 import { SearchFormProps } from './types.ts'
 
 const SearchForm = ({searchTerm, onSearchSubmit, onSearchInput}: SearchFormProps) => (
-  <form onSubmit={onSearchSubmit}>
+  <form onSubmit={onSearchSubmit} className='search-form'>
     <InputWithLabel id = 'search' onInputChange = {onSearchInput} value = {searchTerm} isFocused>
       <strong>Search:</strong>
     </InputWithLabel>

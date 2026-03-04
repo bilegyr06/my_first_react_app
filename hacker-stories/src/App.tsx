@@ -39,7 +39,10 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
       ...state,
       isLoading: false,
       isError: false,
-      data: action.payload.list,
+      data: 
+        action.payload.page === 0
+          ? action.payload.list
+          : state.data.concat(action.payload.list),
       page: action.payload.page
     }
   
@@ -106,6 +109,12 @@ const App = () =>{
 
   const lastSearches = getLastSearches(urls)  
 
+  const handleMore = () => {
+    const lastUrl = urls[urls.length - 1]
+    const searchTerm = extractSearchTerm(lastUrl)
+    handleSearch(searchTerm, stories.page+1)
+  }
+
   const [stories, dispatchStories] = React.useReducer(
     storiesReducer, {data: [], page: 0, isLoading: false, isError: false}
   )
@@ -152,19 +161,32 @@ const App = () =>{
       <h1 className='headline-primary'>Hacker Stories</h1>
       <SearchForm searchTerm = {searchTerm} onSearchInput = {handleSearchInput} onSearchSubmit = {handleSearchSubmit}/>
 
-      {lastSearches.map((searchTerm:string, index: number)=>(
-        <button
-         key={searchTerm + index}
-         type='button'
-         onClick={() =>handleLastSearch(searchTerm)}
-        >
-          {searchTerm}
-        </button>
-      ))}
+      <div className='last-searches'>
+        {extractSearchTerm(urls[urls.length-1])  === '' 
+            ? 'Most Recent Searches'
+            : lastSearches.map((searchTerm:string, index: number)=>(
+          <button
+          key={searchTerm + index}
+          type='button'
+          onClick={() =>handleLastSearch(searchTerm)}
+          >
+            {
+            searchTerm === '' 
+            ? 'Blank'
+            : searchTerm
+            }
+          </button>
+        ))}
+      </div>
 
+      <List list = {stories.data} onRemoveItem = {handleRemoveStory}/>
       {stories.isError && <p>...Seems like something went wrong...</p>}
+
       {stories.isLoading ? (<p>Loading...</p>):
-      (<List list = {stories.data} onRemoveItem = {handleRemoveStory}/>)}
+      (<button onClick={()=>handleMore()}>
+        More
+      </button>)}
+
     </div>
     
   )

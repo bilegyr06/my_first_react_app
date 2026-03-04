@@ -10,10 +10,9 @@ type InputWithLabelProps = {
 };
 
 
-const InputWithLabel: React.FC<InputWithLabelProps> = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
+const InputWithLabel = ({id, onInputChange, type = 'text', isFocused, value, children}: InputWithLabelProps)=>(
   <>
     <label htmlFor= {id}> {children}</label>
-    &nbsp;
     <input type= {type} id = {id} onChange={onInputChange} placeholder='Search for anything' value={value} autoFocus = {isFocused}/>
 
     <p>

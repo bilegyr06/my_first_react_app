@@ -2,39 +2,56 @@
   min-height: 100vh;
   padding: 40px 20px;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .headline-primary {
   font-size: 48px;
   font-weight: 600;
   letter-spacing: -1px;
-  margin: 0 0 32px 0;
-  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-block-end:.5em;
+  color: #ffffff;
+  width: fit-content;
+  margin-inline: auto;
 }
 
-.search-form input,
-input[type="text"],
-input[type="search"] {
+.search-form{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+}
+.search-form input{
   width: 100%;
-  max-width: 400px;
+  width: 350px;
   padding: 14px 16px;
   font-size: 16px;
-  border: 2px solid var(--border);
-  border-radius: 12px;
+  border: 0px solid transparent;
+  border-radius: .8em;
   background: #ffffff;
   color: var(--dark);
   transition: all 0.3s ease;
 }
 
-.search-form input:focus,
-input[type="text"]:focus,
-input[type="search"]:focus {
+.search-form input:focus{
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-form p,
+.search-form button{
+  margin-block-start: 1em;
+}
+
+.last-searches{
+  margin-block-start: 1em;
+  display: flex;
+  gap: 1em;
 }
 
 /* Button styling for mobile feel */
@@ -48,6 +65,8 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 5em;
+  max-width: 10em;
 }
 
 button:hover {
@@ -66,18 +85,19 @@ button:hover > svg > g {
 }
 
 ul{
-    margin-block-start: 2em;
+    margin-block: 1.5em;
+    width: 890px;
+
 }
 
 li {
   display: flex;
   flex-direction: row;
   gap: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 12px;
   background: #ffffff;
   color: #40336c;
-  border-radius: 12px;
+  border-radius: 4px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
@@ -87,12 +107,4 @@ li {
 li:hover {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   transform: translateY(-4px);
-}
-
-/* Container content - mobile optimized */
-.container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
 }
