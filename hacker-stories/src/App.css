@@ -27,7 +27,7 @@
 }
 .search-form input{
   width: 100%;
-  width: 350px;
+  max-width: 350px;
   padding: 14px 16px;
   font-size: 16px;
   border: 0px solid transparent;
@@ -86,19 +86,24 @@ button:hover > svg > g {
 
 ul{
     margin-block: 1.5em;
-    width: 890px;
+    max-width: 890px;
+    min-width: 300px;
 
 }
 
 li {
   display: flex;
+  flex-grow: 1;
+  max-width: 890px;
+  width: 890px;
+  min-width: 310px;
   flex-direction: row;
   gap: 12px;
   padding: 12px;
   background: #ffffff;
   color: #40336c;
   border-radius: 4px;
-  border: 1px solid var(--border);
+  border: 0px solid var(--border);
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
 }

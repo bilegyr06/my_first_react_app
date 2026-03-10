@@ -1,20 +1,18 @@
 import * as React from 'react'
 
 type Story = {
-  list: {
-    objectID: string;
-    url: string;
-    title: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  }
-  page: number
+  objectID: string;
+  url: string;
+  title: string;
+  author: string;
+  num_comments: number;
+  points: number;
 };
 
 
 type StoriesState = {
   data: Story[];
+  page: number;
   isLoading: boolean;
   isError: boolean;
 };
@@ -24,14 +22,17 @@ type StoriesFetchInitAction = {
 }
 type StoriesFetchSuccessAction = {
   type: 'STORIES_FETCH_SUCCESS';
-  payload: Story[];
+  payload: {
+    list: Story[];
+    page: number;
+  };
 }
 type StoriesFetchFailureAction = {
   type: 'STORIES_FETCH_FAILURE';
 }
 type StoriesRemoveAction = {
   type: 'REMOVE_STORY';
-  payload: Story;
+  payload: Story
 }
 type StoriesAction =
 StoriesFetchInitAction

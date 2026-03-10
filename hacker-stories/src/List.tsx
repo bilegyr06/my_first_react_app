@@ -38,7 +38,7 @@ const List = React.memo(
 
     return(
       <ul>
-        <li style={{fontWeight: 'bold'}}>
+        <li style={{fontWeight: 'bold', backgroundColor: '#8e8e8e', marginBlockEnd: '.5em'}}>
           <span style={{ width: '35%'}}>{ sort.sortKey === 'TITLE' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('TITLE')}>Title ⬆️</button> : <button onClick={()=>handleSort('TITLE')}>Title 🟰</button> }</span>
           <span style={{ width: '20%' }}>{ sort.sortKey === 'AUTHOR' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('AUTHOR')}>Author ⬆️</button> : <button onClick={()=>handleSort('AUTHOR')}>Author 🟰</button> }</span>
           <span style={{ width: '20%' }}>{ sort.sortKey === 'COMMENT' ? <button style={{backgroundColor: '#470ecd'}} onClick={()=>handleSort('COMMENT')}>Comments ⬆️</button> : <button onClick={()=>handleSort('COMMENT')}>Comments 🟰</button> }</span>
